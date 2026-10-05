@@ -16,7 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/project/:id" element={<ProjectTasks />} /> 
-          <Route path="/add-task/:projectId" element={<AddTask />} />
+          <Route path="/add-task/:projectId?" element={<AddTask />} />
           <Route path="/add-project" element={<AddProject />} />
 
         </Routes>

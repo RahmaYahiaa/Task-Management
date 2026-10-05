@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/app-context";
 
 export default function AddTask() {
+  const { projectId: routeProjectId } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [projectId, setProjectId] = useState("");
+  const [projectId, setProjectId] = useState(routeProjectId ?? "");
   const [status, setStatus] = useState("To Do");
 
   const { state, dispatch } = useContext(AppContext);
