@@ -10,14 +10,14 @@ A React single-page project and task dashboard inspired by Trello and Asana. It 
 | Project board at `/project/:id` | `src/pages/ProjectTasks.jsx` displays the selected project and filters its tasks. |
 | Three task statuses | `TaskBoard` divides tasks into **To Do**, **In Progress**, and **Done** columns. |
 | Move and delete tasks | Task actions and HTML drag-and-drop update the shared React state. |
-| Add Task form | `/add-task/:projectId` collects task title, description, project, and initial status. The board link supplies its project id; the project remains selectable. |
+| Add Task form | `/add-task` or `/add-task/:projectId` collects task title, description, project, and initial status. The board link supplies its project id so the form can preselect that project; users can still change it. |
 | Add Project form | `/add-project` collects title and description, then returns to the dashboard. |
 | Free public JSON API; GET only | MockAPI supplies the initial projects and tasks. All subsequent create/edit/delete/status changes are local; the app does not send API mutations. |
 | Optional search | Search on the project board filters task title and description. |
 | Optional dark mode | Theme selection is persisted in browser storage. |
 | Optional local persistence | Project and task changes are stored in browser `localStorage`. |
 
-**Route note:** the specification names `/add-task`; this app uses `/add-task/:projectId` so the Add Task button can preselect the current project. The form also includes a project selector.
+**Route note:** `/add-task` opens the form with no project preselected; `/add-task/:projectId` preselects the project linked from its board.
 
 ## Features
 
@@ -54,6 +54,14 @@ npm run lint
 npm run build
 npm run preview
 ```
+
+Run the automated unit tests with:
+
+```bash
+npm test
+```
+
+The tests cover reducer behavior (including deleting a project and its tasks), saved-data hydration, API bootstrapping and network failure fallback, plus required-field text normalization.
 
 ## Team roles
 
