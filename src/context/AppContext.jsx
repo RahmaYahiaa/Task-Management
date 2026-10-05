@@ -1,5 +1,6 @@
 import { useReducer, useEffect } from "react";
 import { AppContext } from "./app-context";
+import { readStoredArray, resolveCollection } from "./storage";
 const PROJECTS_KEY = "protask_projects";
 const TASKS_KEY = "protask_tasks";
 
@@ -133,16 +134,16 @@ export const AppProvider = ({ children }) => {
         let apiProjects = await projectsRes.json();
         let apiTasks = await tasksRes.json();
 
-        const localProjects = JSON.parse(localStorage.getItem(PROJECTS_KEY)) || [];
-        const localTasks = JSON.parse(localStorage.getItem(TASKS_KEY)) || [];
+        const localProjects = readStoredArray(localStorage, PROJECTS_KEY);
+        const localTasks = readStoredArray(localStorage, TASKS_KEY);
 
-        const finalProjects = localProjects.length > 0 ? localProjects : apiProjects;
-        const finalTasks = localTasks.length > 0 ? localTasks : apiTasks;
+        const finalProjects = resolveCollection(localProjects, apiProjects);
+        const finalTasks = resolveCollection(localTasks, apiTasks);
 
-        if (localProjects.length === 0) {
+        if (localProjects === null) {
           localStorage.setItem(PROJECTS_KEY, JSON.stringify(apiProjects));
         }
-        if (localTasks.length === 0) {
+        if (localTasks === null) {
           localStorage.setItem(TASKS_KEY, JSON.stringify(apiTasks));
         }
 

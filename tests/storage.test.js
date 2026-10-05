@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readStoredArray } from "../src/context/storage.js";
+import { readStoredArray, resolveCollection } from "../src/context/storage.js";
 
 function createStorage(entries = {}) {
   return {
@@ -24,6 +24,15 @@ test("parses saved collection entries", () => {
     readStoredArray(createStorage({ projects: JSON.stringify(expected) }), "projects"),
     expected,
   );
+});
+
+test("keeps a saved empty collection instead of restoring API seed records", () => {
+  assert.deepEqual(resolveCollection([], [{ id: 1 }]), []);
+});
+
+test("uses API records only when no valid local collection exists", () => {
+  const seed = [{ id: 1 }];
+  assert.deepEqual(resolveCollection(null, seed), seed);
 });
 
 test("treats malformed or non-array data as missing", () => {

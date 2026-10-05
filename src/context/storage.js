@@ -1,3 +1,7 @@
+export function resolveCollection(savedCollection, seedCollection) {
+  return savedCollection ?? seedCollection;
+}
+
 export function readStoredArray(storage, key) {
   const serialized = storage.getItem(key);
   if (serialized === null) return null;
