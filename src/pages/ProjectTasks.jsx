@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";  
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../context/app-context";
 import TaskBoard from "../components/TaskBoard";
 import EditModal from "../components/EditModal";
 

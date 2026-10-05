@@ -1,6 +1,6 @@
 import TaskCard from './TaskCard';
 import { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+import { AppContext } from '../context/app-context';
 
 export default function TaskColumn({ title, tasks, onDelete, onMove, onEdit, onDrop }) {
   const { state } = useContext(AppContext);

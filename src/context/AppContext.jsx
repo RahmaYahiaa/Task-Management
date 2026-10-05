@@ -1,7 +1,5 @@
-import { createContext, useReducer, useEffect } from "react";
-
-
-export const AppContext = createContext();
+import { useReducer, useEffect } from "react";
+import { AppContext } from "./app-context";
 const PROJECTS_KEY = "protask_projects";
 const TASKS_KEY = "protask_tasks";
 
@@ -92,10 +90,11 @@ const reducer = (state, action) => {
       return { ...state, tasks: filteredTasks };
     }
 
-    case "TOGGLE_DARK_MODE":
+    case "TOGGLE_DARK_MODE": {
       const newMode = !state.darkMode;
       localStorage.setItem("darkMode", JSON.stringify(newMode));
       return { ...state, darkMode: newMode };
+    }
 
     case "SET_DARK_MODE":
       return { ...state, darkMode: action.payload };

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+import { AppContext } from '../context/app-context';
 
 export default function TaskCard({ id, title, description, status, onDelete, onMove, onEdit }) {
   const { state } = useContext(AppContext);

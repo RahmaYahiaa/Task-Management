@@ -1,6 +1,6 @@
 import TaskColumn from './TaskColumn';
 import { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+import { AppContext } from '../context/app-context';
 
 export default function TaskBoard({ tasks, onDelete, onMove, onEdit }) {
   const { dispatch } = useContext(AppContext);

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../context/app-context";
 
 export default function ProjectCard({ id, title, description, tasksCount }) {
   const { state } = useContext(AppContext);

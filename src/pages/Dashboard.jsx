@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import ProjectCard from "../components/ProjectCard";
 import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../context/app-context";
 
 export default function Dashboard() {
   const { state } = useContext(AppContext);
