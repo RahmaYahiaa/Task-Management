@@ -1,92 +1,89 @@
-# ProTask — Task Management Dashboard
+# proTask – Task Management Dashboard (Mini Trello)
 
-A React single-page project and task dashboard inspired by Trello and Asana. It fetches starter project/task data from a free public JSON API; users manage their working copy locally in the browser.
+A modern Single Page Application (SPA) built with React, inspired by Trello and Asana. The app fetches projects and tasks from a free public API and allows full local management of additions, edits, moves, and deletions.
 
-## Assignment requirements mapped to the app
-
-| Brief requirement | Where it is implemented |
-| --- | --- |
-| Projects dashboard at `/` | `src/pages/Dashboard.jsx`; each project is rendered by `ProjectCard` with title, description, task count, and a View Tasks link. |
-| Project board at `/project/:id` | `src/pages/ProjectTasks.jsx` displays the selected project and filters its tasks. |
-| Three task statuses | `TaskBoard` divides tasks into **To Do**, **In Progress**, and **Done** columns. |
-| Move and delete tasks | Task actions and HTML drag-and-drop update the shared React state. |
-| Add Task form | `/add-task` or `/add-task/:projectId` collects task title, description, project, and initial status. The board link supplies its project id so the form can preselect that project; users can still change it. |
-| Add Project form | `/add-project` collects title and description, then returns to the dashboard. |
-| Free public JSON API; GET only | MockAPI supplies the initial projects and tasks. All subsequent create/edit/delete/status changes are local; the app does not send API mutations. |
-| Optional search | Search on the project board filters task title and description. |
-| Optional dark mode | Theme selection is persisted in browser storage. |
-| Optional local persistence | Project and task changes are stored in browser `localStorage`. |
-
-**Route note:** `/add-task` opens the form with no project preselected; `/add-task/:projectId` preselects the project linked from its board.
+**Live Demo:** [miniitrello.vercel.app](https://miniitrello.vercel.app/)
 
 ## Features
 
-- Browse projects and see per-project task totals.
-- Create, edit, and delete projects and tasks.
-- Move tasks through the three workflow columns by button or drag-and-drop.
-- Search tasks within a project.
-- Switch between light and dark themes.
-- Persist local edits and theme preference across browser reloads.
-- Responsive layout using Bootstrap CSS. The project does not use Material UI or Ant Design.
+### 1. Dashboard – Projects List Page
 
-## Data source and persistence
+- Displays projects fetched from a public API.
+- Shows each project in a responsive `ProjectCard`.
+- Each card includes the title, short description, task count, and a **View Tasks** button.
+- Includes a button to navigate to the Add Project page.
 
-The app fetches starter JSON from these public MockAPI resources:
+### 2. Project Tasks Page
 
-- Projects: `https://69391befc8d59937aa0684c4.mockapi.io/projects`
-- Tasks: `https://69391befc8d59937aa0684c4.mockapi.io/tasks`
+- Displays the selected project's title and description; project details can be edited.
+- Organizes tasks into **To Do**, **In Progress**, and **Done** columns.
+- Displays each task in a `TaskCard` with its title, description, status, and actions.
+- Supports moving tasks between columns using local state or drag-and-drop.
+- Supports deleting tasks locally.
+- Includes a button to navigate to the Add Task page.
+- Provides real-time search within the current project's tasks.
 
-Only GET requests are used. Browser-local project and task data are stored in `localStorage` under `protask_projects` and `protask_tasks`; the dark-theme preference uses `darkMode`. This is a front-end-only project: edits do not update MockAPI, sync between browsers, or require an application server. Clearing the site's local storage removes the local copy.
+### 3. Add Task Page
 
-## Run locally
+The form includes:
+
+- Task title
+- Task description
+- Project selector
+- Status selector (**To Do**, **In Progress**, or **Done**)
+
+Submitting the form adds the task to local state and redirects to the selected project's page. Opening the form from a project board preselects that project.
+
+### 4. Add Project Page
+
+The form includes a project title and description. Submitting it adds the project locally and redirects to the dashboard.
+
+All add, edit, delete, and move operations are handled locally in React state; the app does not send POST, PUT, or DELETE requests to the API.
+
+## Bonus Features Implemented
+
+- **LocalStorage:** Projects, tasks, edits, status changes, and deletions persist after a page refresh or browser close.
+- **Task search:** Real-time filtering within the current project.
+- **Dark mode:** Navbar toggle with app-wide support; preference is saved locally.
+- **Drag and drop:** Move tasks between board columns.
+
+## API Used (Free Public API)
+
+The initial data comes from a custom API created using MockAPI.io:
+
+- Projects: [https://69391befc8d59937aa0684c4.mockapi.io/projects](https://69391befc8d59937aa0684c4.mockapi.io/projects)
+- Tasks: [https://69391befc8d59937aa0684c4.mockapi.io/tasks](https://69391befc8d59937aa0684c4.mockapi.io/tasks)
+
+The app loads initial data when needed. All later modifications are local to the browser and are not written back to the API. If saved data is available, the app uses it without requiring another API fetch.
+
+## Team Roles
+
+The project brief defines four team roles. Add the actual member names before submission:
+
+1. **Routing & Layout** — routes, navbar, and page structure.
+2. **UI Components** — project cards, task cards, and board columns.
+3. **API & State Logic** — API reads, shared state, and LocalStorage.
+4. **Forms** — Add Project and Add Task flows.
+
+## How to Run Locally
 
 Prerequisites: Node.js 20.19+ or 22.12+ and npm.
 
 ```bash
+git clone https://github.com/RahmaYahiaa/Task-Management.git
+cd Task-Management
 npm install
 npm run dev
 ```
 
-Open the URL printed by Vite (usually `http://localhost:5173`). Validate and preview a production build with:
+Vite prints the local development URL in the terminal (usually `http://localhost:5173`).
 
-```bash
-npm run lint
-npm run build
-npm run preview
-```
-
-Run the automated unit tests with:
+## Development Checks
 
 ```bash
 npm test
+npm run lint
+npm run build
 ```
 
-The tests cover reducer behavior (including deleting a project and its tasks), saved-data hydration, API bootstrapping and network failure fallback, plus required-field text normalization.
-
-## Team roles
-
-The project brief assigns work to four team members. Add actual names beside these roles before submitting; names are not included here because they were not supplied.
-
-1. **Routing & Layout** — routes, navigation, and shared page layout.
-2. **UI Components** — project/task cards, board columns, and reusable UI.
-3. **API & State Logic** — initial API reads, shared state, and local persistence.
-4. **Forms** — add/edit project and task flows.
-
-## Structure
-
-```text
-src/
-├── components/   Navbar, cards, task columns/board, edit modal, footer
-├── context/      Shared project/task state, API loading, and persistence
-├── layout/       Shared page layout
-├── pages/        Dashboard, project board, and add forms
-├── App.jsx       Routes and application provider
-└── main.jsx      React entry point and global styles
-```
-
-## Limitations and next steps
-
-- No backend, accounts, authorization, or cross-device synchronization.
-- API access is needed to seed data for a browser that has no saved local copy.
-- Team member names and the GitHub repository URL should be added when confirmed.
-- Vercel deployment is intentionally deferred until after the GitHub repository is finalized.
+The automated tests cover state updates, project/task deletion, local-data hydration, API bootstrapping and fallback behavior, and form text normalization.
