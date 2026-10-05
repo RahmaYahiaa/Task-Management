@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/app-context";
+import { normalizeRequiredText } from "../utils/validation.js";
 
 export default function AddProject() {
   const [title, setTitle] = useState("");
@@ -12,14 +13,16 @@ export default function AddProject() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !description.trim()) {
+    const projectTitle = normalizeRequiredText(title);
+    const projectDescription = normalizeRequiredText(description);
+    if (!projectTitle || !projectDescription) {
       alert("Please fill in all fields");
       return;
     }
 
     dispatch({
       type: "ADD_PROJECT",
-      payload: { title, description },
+      payload: { title: projectTitle, description: projectDescription },
     });
 
     navigate("/");

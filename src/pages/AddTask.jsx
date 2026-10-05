@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/app-context";
+import { normalizeRequiredText } from "../utils/validation.js";
 
 export default function AddTask() {
   const { projectId: routeProjectId } = useParams();
@@ -16,7 +17,9 @@ export default function AddTask() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !description.trim() || !projectId) {
+    const taskTitle = normalizeRequiredText(title);
+    const taskDescription = normalizeRequiredText(description);
+    if (!taskTitle || !taskDescription || !projectId) {
       alert("Please fill in all fields and select a project");
       return;
     }
@@ -24,8 +27,8 @@ export default function AddTask() {
     dispatch({
       type: "ADD_TASK",
       payload: {
-        title,
-        description,
+        title: taskTitle,
+        description: taskDescription,
         projectId: parseInt(projectId),
         status,
       },
