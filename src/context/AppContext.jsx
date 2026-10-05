@@ -1,6 +1,7 @@
 import { useReducer, useEffect } from "react";
 import { AppContext } from "./app-context";
-import { readStoredArray, resolveCollection } from "./storage";
+import { loadInitialData } from "./data-source";
+
 const PROJECTS_KEY = "protask_projects";
 const TASKS_KEY = "protask_tasks";
 
@@ -126,31 +127,8 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchAndLoadData = async () => {
       try {
-        const [projectsRes, tasksRes] = await Promise.all([
-          fetch("https://69391befc8d59937aa0684c4.mockapi.io/projects"),
-          fetch("https://69391befc8d59937aa0684c4.mockapi.io/tasks"),
-        ]);
-
-        let apiProjects = await projectsRes.json();
-        let apiTasks = await tasksRes.json();
-
-        const localProjects = readStoredArray(localStorage, PROJECTS_KEY);
-        const localTasks = readStoredArray(localStorage, TASKS_KEY);
-
-        const finalProjects = resolveCollection(localProjects, apiProjects);
-        const finalTasks = resolveCollection(localTasks, apiTasks);
-
-        if (localProjects === null) {
-          localStorage.setItem(PROJECTS_KEY, JSON.stringify(apiProjects));
-        }
-        if (localTasks === null) {
-          localStorage.setItem(TASKS_KEY, JSON.stringify(apiTasks));
-        }
-
-        dispatch({
-          type: "SET_DATA",
-          payload: { projects: finalProjects, tasks: finalTasks },
-        });
+        const data = await loadInitialData(localStorage);
+        dispatch({ type: "SET_DATA", payload: data });
       } catch (error) {
         console.error("Error loading data:", error);
         dispatch({ type: "SET_DATA", payload: { projects: [], tasks: [] } });
