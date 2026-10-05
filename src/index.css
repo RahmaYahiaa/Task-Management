@@ -1,0 +1,13 @@
+/* Placeholder for Dark Mode */
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #d1d5db !important;
+  opacity: 1;
+}
+
+/* Placeholder for Light Mode */
+input::placeholder,
+textarea::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
