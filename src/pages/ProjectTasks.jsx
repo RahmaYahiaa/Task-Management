@@ -269,6 +269,7 @@ export default function ProjectTasks() {
 
       {/* Modals */}
       <EditModal
+        key={`project-${project.id}-${showProjectModal}`}
         show={showProjectModal}
         onClose={() => setShowProjectModal(false)}
         onSave={handleSaveProject}
@@ -279,6 +280,7 @@ export default function ProjectTasks() {
 
       {editingTask && (
         <EditModal
+          key={`task-${editingTask.id}-${showTaskModal}`}
           show={showTaskModal}
           onClose={() => {
             setShowTaskModal(false);
