@@ -13,33 +13,44 @@ export async function loadInitialData(storage, fetcher = fetch) {
     return { projects: savedProjects, tasks: savedTasks };
   }
 
-  const [projectsResponse, tasksResponse] = await Promise.all([
-    fetcher(PROJECTS_URL),
-    fetcher(TASKS_URL),
-  ]);
+  try {
+    const [projectsResponse, tasksResponse] = await Promise.all([
+      fetcher(PROJECTS_URL),
+      fetcher(TASKS_URL),
+    ]);
 
-  if (!projectsResponse.ok || !tasksResponse.ok) {
-    throw new Error("The starter data service returned an unsuccessful response.");
+    if (!projectsResponse.ok || !tasksResponse.ok) {
+      throw new Error("The starter data service returned an unsuccessful response.");
+    }
+
+    const [apiProjects, apiTasks] = await Promise.all([
+      projectsResponse.json(),
+      tasksResponse.json(),
+    ]);
+
+    if (!Array.isArray(apiProjects) || !Array.isArray(apiTasks)) {
+      throw new Error("The starter data service returned an invalid data format.");
+    }
+
+    const projects = resolveCollection(savedProjects, apiProjects);
+    const tasks = resolveCollection(savedTasks, apiTasks);
+
+    if (savedProjects === null) {
+      storage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+    }
+    if (savedTasks === null) {
+      storage.setItem(TASKS_KEY, JSON.stringify(tasks));
+    }
+
+    return { projects, tasks };
+  } catch (error) {
+    if (savedProjects !== null || savedTasks !== null) {
+      return {
+        projects: savedProjects ?? [],
+        tasks: savedTasks ?? [],
+        error: `Could not load starter data: ${error.message}`,
+      };
+    }
+    throw error;
   }
-
-  const [apiProjects, apiTasks] = await Promise.all([
-    projectsResponse.json(),
-    tasksResponse.json(),
-  ]);
-
-  if (!Array.isArray(apiProjects) || !Array.isArray(apiTasks)) {
-    throw new Error("The starter data service returned an invalid data format.");
-  }
-
-  const projects = resolveCollection(savedProjects, apiProjects);
-  const tasks = resolveCollection(savedTasks, apiTasks);
-
-  if (savedProjects === null) {
-    storage.setItem(PROJECTS_KEY, JSON.stringify(projects));
-  }
-  if (savedTasks === null) {
-    storage.setItem(TASKS_KEY, JSON.stringify(tasks));
-  }
-
-  return { projects, tasks };
 }

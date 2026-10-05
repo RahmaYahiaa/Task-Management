@@ -5,7 +5,7 @@ import { AppContext } from "../context/app-context";
 
 export default function Dashboard() {
   const { state } = useContext(AppContext);
-  const { projects, tasks, loading, darkMode } = state;
+  const { projects, tasks, loading, darkMode, error } = state;
 
   if (loading) {
     return (
@@ -40,6 +40,11 @@ export default function Dashboard() {
       }}
     >
       <div className="container py-4">
+        {error && (
+          <div className="alert alert-warning" role="alert">
+            {error}
+          </div>
+        )}
         <div className="row justify-content-center">
           <div className="col-lg-6 col-md-8">
             <div

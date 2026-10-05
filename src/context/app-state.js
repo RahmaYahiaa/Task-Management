@@ -2,6 +2,7 @@ export const initialState = {
   projects: [],
   tasks: [],
   loading: true,
+  error: null,
   darkMode: false,
 };
 
@@ -13,6 +14,7 @@ export function appReducer(state, action) {
         projects: action.payload.projects,
         tasks: action.payload.tasks,
         loading: false,
+        error: action.payload.error ?? null,
       };
 
     case "ADD_PROJECT":

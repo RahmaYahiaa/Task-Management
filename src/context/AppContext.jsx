@@ -36,7 +36,10 @@ export function AppProvider({ children }) {
         dispatch({ type: "SET_DATA", payload: data });
       } catch (error) {
         console.error("Error loading data:", error);
-        dispatch({ type: "SET_DATA", payload: { projects: [], tasks: [] } });
+        dispatch({
+          type: "SET_DATA",
+          payload: { projects: [], tasks: [], error: error.message },
+        });
       }
     };
 
