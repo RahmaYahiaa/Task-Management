@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Moon, Sun } from "lucide-react";
 import { AppContext } from "../context/app-context";
 
 export default function Navbar() {
@@ -91,7 +92,7 @@ export default function Navbar() {
           onMouseLeave={(e) => (e.target.style.background = "transparent")}
           title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
         >
-          <i className={darkMode ? "bi bi-moon-fill" : "bi bi-sun-fill"}></i>
+          {darkMode ? <Moon aria-hidden="true" /> : <Sun aria-hidden="true" />}
         </button>
       </div>
     </nav>

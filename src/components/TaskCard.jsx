@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { AppContext } from '../context/app-context';
+import { ArrowRightCircle, Pencil, Trash2 } from 'lucide-react';
 
 export default function TaskCard({ id, title, description, status, onDelete, onMove, onEdit }) {
   const { state } = useContext(AppContext);
@@ -88,7 +89,7 @@ export default function TaskCard({ id, title, description, status, onDelete, onM
                 e.currentTarget.style.color = darkMode ? "#9ca3af" : "#6c757d";
               }}
             >
-              <i className="bi bi-pencil-fill"></i>
+              <Pencil aria-hidden="true" size={16} />
             </button>
 
             <button
@@ -110,7 +111,7 @@ export default function TaskCard({ id, title, description, status, onDelete, onM
               }}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
             >
-              <i className="bi bi-arrow-right-circle-fill"></i>
+              <ArrowRightCircle aria-hidden="true" size={18} />
             </button>
 
             <button
@@ -127,7 +128,7 @@ export default function TaskCard({ id, title, description, status, onDelete, onM
               }}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
             >
-              <i className="bi bi-trash3-fill"></i>
+              <Trash2 aria-hidden="true" size={16} />
             </button>
           </div>
         </div>

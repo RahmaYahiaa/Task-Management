@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/app-context";
 import TaskBoard from "../components/TaskBoard";
 import EditModal from "../components/EditModal";
+import { Filter, Pencil, Search, Trash2, XCircle } from "lucide-react";
 
 export default function ProjectTasks() {
   const { id } = useParams();
@@ -165,7 +166,7 @@ export default function ProjectTasks() {
               onMouseEnter={(e) => e.currentTarget.style.color = darkMode ? "#d1d5db" : "#495057"}
               onMouseLeave={(e) => e.currentTarget.style.color = darkMode ? "#9ca3af" : "#6c757d"}
             >
-              <i className="bi bi-pencil-fill"></i>
+              <Pencil aria-hidden="true" size={16} />
             </button>
 
             {/* Delete */}
@@ -188,7 +189,7 @@ export default function ProjectTasks() {
                 e.currentTarget.style.transform = 'scale(1)';
               }}
             >
-              <i className="bi bi-trash3-fill"></i>
+              <Trash2 aria-hidden="true" size={16} />
             </button>
           </div>
 
@@ -222,13 +223,12 @@ export default function ProjectTasks() {
                 transition: "all 0.3s"
               }}
             />
-            <i 
-              className="bi bi-search position-absolute top-50 start-4 translate-middle-y"
-              style={{ 
-                fontSize: '1.2rem',
-                color: darkMode ? "#9ca3af" : "#6c757d"
-              }}
-            ></i>
+            <Search
+              aria-hidden="true"
+              className="position-absolute top-50 start-4 translate-middle-y"
+              size={20}
+              style={{ color: darkMode ? "#9ca3af" : "#6c757d" }}
+            />
             
             {search && (
               <button
@@ -240,14 +240,14 @@ export default function ProjectTasks() {
                 }}
                 title="Clear search"
               >
-                <i className="bi bi-x-circle-fill"></i>
+                <XCircle aria-hidden="true" />
               </button>
             )}
           </div>
 
           {search && (
             <div className="mt-3 d-flex align-items-center gap-2">
-              <i className="bi bi-funnel text-primary"></i>
+              <Filter aria-hidden="true" className="text-primary" size={16} />
               <p 
                 className="mb-0 small"
                 style={{ color: darkMode ? "#9ca3af" : "#6c757d" }}
