@@ -3,8 +3,7 @@ import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 export default function TaskBoard({ tasks, onDelete, onMove, onEdit }) {
-  const { state, dispatch } = useContext(AppContext);
-  const { darkMode } = state;
+  const { dispatch } = useContext(AppContext);
   
   const todoTasks = tasks.filter(t => t.status === 'To Do');
   const inProgressTasks = tasks.filter(t => t.status === 'In Progress');
